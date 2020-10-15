@@ -1,0 +1,24 @@
+Changes from stock firmware : 
+
+In order to use StealthChop mode while home from the printer you need to add M569 S1 XY - ***operation*** M569 S0 XY:
+
+File:
+Configuration_Adv.h
+
+Config:
+#define USER_GCODE_1 "M569 S1 XY\nG28\nM569 S0 XY\nG29 W"
+#define USER_GCODE_4 "M140 S" STRINGIFY(PREHEAT_2_TEMP_BED) "\nM569 S1 XY\nG28\nM569 S0 XY\nG29"
+#define USER_GCODE_5 "M569 S1 XY\nG28\nM569 S0 XY\nM503"
+#define G29_RECOVER_COMMANDS "M117 Probe failed. Rewiping.\nM569 S1 XY\nG28\nM569 S0 XY\nG12 P0 S12 T0"
+#define EVENT_GCODE_SD_STOP "M569 S1 XY\nG28XY\nM569 S0 XY"
+
+For those using Octoprint use this for EVENT_GCODE_SD_STOP so that when you stop a print from the printer it will also stop Octoprint..
+#define EVENT_GCODE_SD_STOP "\nM118 A1 action:cancel\nM569 S1 XY\nG28XY\nM569 S0 XY" 
+ 
+My filament sensor switch was inverted so I had to switch to normal mode.
+
+File:
+Configuration.h
+  
+Config:
+#define FIL_RUNOUT_INVERTING false
